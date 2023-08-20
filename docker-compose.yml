@@ -1,0 +1,28 @@
+version: '2.8'
+
+services:
+  postgres:
+    image: postgres:15
+    env_file:
+      - ./.env
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - /home/pgdata:/var/lib/postgresql/data
+    restart: on-failure
+    ports:
+      - "5432:5432"
+    container_name: db
+  bot:
+    build: .
+    command: sh -c 'alembic revision --autogenerate -m "Tables" && alembic upgrade head && python -m app'
+    env_file:
+      - ./.env
+    restart: always
+    depends_on:
+      - postgres
+    container_name: bot
+
+volumes:
+  pgdata:

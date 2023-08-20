@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "telegram bot by aiogram"
+version = "0.0.1"
+description = "Telegram bot architecture"
+authors = ["shardyllue <shrdyllue@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aiogram = "^2.25.1"
+SQLAlchemy = "^2.0.19"
+asyncpg = "^0.28.0"
+psycopg2 = "^2.9.6"
+loguru = "^0.7.0"
+python-dotenv = "^1.0.0"
+alembic = "^1.11.1"
+
+
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
