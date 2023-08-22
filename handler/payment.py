@@ -81,6 +81,7 @@ async def premium_paid_channel(
 
 
     await state.set_state(None)
+    await db.close()
 
 
 async def premium_cancel_channel(
@@ -246,6 +247,8 @@ async def virtual_paid_raiting(
         photo=photo_id,
         reply_markup=tmoder.raiting_kb(from_id, to_id, page)
     )
+
+    await db.close()
 
 
 async def virtual_cancel_raiting(

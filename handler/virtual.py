@@ -61,11 +61,13 @@ async def virtual(ctx : Message, db : AsyncSession):
         text=text,
         reply_markup=tvirtual.kb_active
     )
+
+    await db.close()
         
 
 
 @dp.callback_query_handler(VirtualCall.filter(action="become"))
-async def subcribe(ctx : CallbackQuery):
+async def subcribe(ctx : CallbackQuery, db : AsyncSession):
 
 
     await ctx.message.delete()
@@ -83,6 +85,8 @@ async def subcribe(ctx : CallbackQuery):
         reply_markup=markup
     )
 
+    await db.close()
+
 
 @dp.callback_query_handler(VirtualCall.filter(action="band"))
 async def subcribe(ctx : CallbackQuery, db : AsyncSession):
@@ -93,7 +97,7 @@ async def subcribe(ctx : CallbackQuery, db : AsyncSession):
         db=db
     )
 
-    return await db.close()
+    await db.close()
 
 
 @dp.callback_query_handler(VirtualCall.filter(action="app"))

@@ -39,7 +39,10 @@ async def post_channel_handler(
 
 
 @dp.message_handler(commands=["mute"])
-async def add_word_to_mute(ctx : Message):
+async def add_word_to_mute(
+    ctx : Message,
+    db : AsyncSession
+):
 
     if ctx.chat.id != config.MODER_GROUP:
 
@@ -139,7 +142,7 @@ async def moderate_message(ctx : Message, state : FSMContext, db : AsyncSession)
                 reply_markup=Tstart.kb
             )
 
-        return
+        return await db.close()
 
     request = await db.execute(select(SubscribeTable).where(
         SubscribeTable.user_id == ctx.from_user.id
@@ -149,7 +152,7 @@ async def moderate_message(ctx : Message, state : FSMContext, db : AsyncSession)
 
     if request.fetchone():
 
-        return 
+        return await db.close()
 
     words = ctx.text.lower().split(sep=" ")
 
@@ -191,7 +194,7 @@ async def moderate_message(ctx : Message, state : FSMContext, db : AsyncSession)
             mute_step=True
         )
 
-        return  
+        return await db.close()
     
     
     try:
@@ -205,16 +208,19 @@ async def moderate_message(ctx : Message, state : FSMContext, db : AsyncSession)
     except CantRestrictChatOwner:
         ...
 
+    await db.close()
 
     await sleep(3*60)
 
     try:
         await ctx.delete()
-    except:
-        ...
+    except Exception as expt:
+        print(expt)
 
     try:
         await message.delete()
-    except:
-        ...
+    except Exception as expt:
+        print(expt)
+
+    
 

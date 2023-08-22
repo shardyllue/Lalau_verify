@@ -3,8 +3,9 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
 from loguru import logger
 
-
+from db import AsyncSession
 from core import dp, bot
+
 from utils import config
 
 from module.club import ClubState 
@@ -21,7 +22,7 @@ import template.club as tclub
 
 
 @dp.message_handler(Text(tstart.WomenBtn))
-async def women_club(ctx : Message, state : FSMContext):
+async def women_club(ctx : Message, state : FSMContext, db : AsyncSession):
     
     await ctx.answer_photo(
         photo=tclub.women_image(),
@@ -32,9 +33,11 @@ async def women_club(ctx : Message, state : FSMContext):
     await state.set_state(ClubState.club)
     await state.update_data(club_gender="Девушка")
 
+    await db.close()
+
 
 @dp.message_handler(Text(tstart.MenBtn))
-async def women_club(ctx : Message, state : FSMContext):
+async def women_club(ctx : Message, state : FSMContext, db : AsyncSession):
     
     await ctx.answer_photo(
         photo=tclub.men_image(),
@@ -45,7 +48,7 @@ async def women_club(ctx : Message, state : FSMContext):
     await state.set_state(ClubState.club)
     await state.update_data(club_gender="Мужчина")
 
-
+    await db.close()
 
 @dp.message_handler(
     Text(tclub.cancel),
@@ -53,7 +56,8 @@ async def women_club(ctx : Message, state : FSMContext):
 )
 async def cancel_handler(
     ctx : Message, 
-    state : FSMContext
+    state : FSMContext,
+    db : AsyncSession
 ):
 
     await ctx.answer(
@@ -63,6 +67,8 @@ async def cancel_handler(
 
     await state.set_state(None)
 
+    await db.close()
+
 
 
 @dp.message_handler(
@@ -71,7 +77,8 @@ async def cancel_handler(
 )
 async def club_handler(
     ctx : Message, 
-    state : FSMContext
+    state : FSMContext,
+    db : AsyncSession
 ):
 
     await ctx.answer(
@@ -125,7 +132,7 @@ async def club_handler(
         reply_markup=_kb
     )
 
-
+    await db.close()
 
 
 

@@ -1,6 +1,7 @@
 from aiogram.types import CallbackQuery, ChatPermissions
 # from aiogram.types import CallbackQuery, ChatPermissions
 from core import dp, bot
+from db import AsyncSession
 
 from utils import config
 
@@ -15,7 +16,8 @@ import template.moder as tmoder
 )
 async def club_moder_handler(
     ctx : CallbackQuery,
-    callback_data : dict
+    callback_data : dict,
+    db : AsyncSession
 ):
     gender = callback_data.get("gender")
     user_id = callback_data.get("user_id")
@@ -45,6 +47,8 @@ async def club_moder_handler(
         )
     )
 
+    await db.close()
+
     # await bot.restrict_chat_member(
     #     chat_id="", 
     #     user_id=user_id,
@@ -56,7 +60,8 @@ async def club_moder_handler(
 )
 async def club_moder_handler(
     ctx : CallbackQuery,
-    callback_data : dict
+    callback_data : dict,
+    db : AsyncSession
 ):
 
     user_id = callback_data.get("user_id")
@@ -71,3 +76,5 @@ async def club_moder_handler(
         text=tmoder.cancel_club,
         reply_markup=tmoder.admin_kb
     )
+
+    await db.close()

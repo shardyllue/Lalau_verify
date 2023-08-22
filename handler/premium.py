@@ -4,7 +4,7 @@ from aiogram.dispatcher.filters import Text
 
 from core import dp
 
-
+from db import AsyncSession
 
 from module.premium import premiumCall, ChannelState
 from utils.base import link_kb
@@ -18,13 +18,15 @@ import template.payment as tpayment
 @dp.message_handler(Text(tstart.PremiunBtn))
 async def premium_channel(
     ctx : Message,
-    state : FSMContext
+    state : FSMContext,
+    db : AsyncSession
 ):   
     await ctx.answer(
         text=tpremium.channel_text,
         reply_markup=tpremium.channel_kb
     )
 
+    await db.close()
 
 
 
@@ -35,7 +37,8 @@ async def premium_channel(
 )
 async def female_handler(
     ctx : CallbackQuery,
-    state : FSMContext
+    state : FSMContext,
+    db : AsyncSession
 ):
     
 
@@ -51,13 +54,16 @@ async def female_handler(
 
     await state.set_state(None)
 
+    await db.close()
+
 
 @dp.callback_query_handler(
     premiumCall.filter(action=tpremium.channel_btn_man),
 )
 async def male_handler(
     ctx : CallbackQuery,
-    state : FSMContext
+    state : FSMContext,
+    db : AsyncSession
 ):
     
 
@@ -77,3 +83,4 @@ async def male_handler(
 
     await state.set_state(None)
 
+    await db.close()

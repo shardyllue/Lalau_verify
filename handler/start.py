@@ -56,6 +56,8 @@ async def start_handler(
                 reply_markup=tstart.kb
             )
 
+            await db.close()
+
 
         return await create_task(state.set_state(None))
 
