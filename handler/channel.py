@@ -7,6 +7,8 @@ from aiogram.dispatcher import FSMContext
 from aiogram.utils.exceptions import CantRestrictChatOwner
 
 from db import AsyncSession
+from db.sql import select
+from db.base import SubscribeTable
 
 from utils.base import link_kb
 
@@ -40,6 +42,7 @@ async def post_channel_handler(
 async def add_word_to_mute(ctx : Message):
 
     if ctx.chat.id != config.MODER_GROUP:
+
         return
 
     args = ctx.get_args().split(sep=" ")
@@ -124,11 +127,29 @@ async def add_word_to_mute(ctx : Message):
 
 
 @dp.message_handler(content_types=ContentTypes.TEXT)
-async def moderate_message(ctx : Message, state : FSMContext):
+async def moderate_message(ctx : Message, state : FSMContext, db : AsyncSession):
 
 
     if ctx.chat.id != config.PUBLIC_GROUP:
+
+        if ctx.chat.type == "private":
+
+            await ctx.answer(
+                text=Tstart.text,
+                reply_markup=Tstart.kb
+            )
+
         return
+
+    request = await db.execute(select(SubscribeTable).where(
+        SubscribeTable.user_id == ctx.from_user.id
+    ))
+
+    await db.close()
+
+    if request.fetchone():
+
+        return 
 
     words = ctx.text.lower().split(sep=" ")
 
@@ -185,7 +206,7 @@ async def moderate_message(ctx : Message, state : FSMContext):
         ...
 
 
-    await sleep(5*60)
+    await sleep(3*60)
 
     try:
         await ctx.delete()

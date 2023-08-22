@@ -2,10 +2,10 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 mute_message = """
-<b>Вирт в канале только по подписке.</b>
+<b>Для публикации постов о вирте, подключите подписку.</b>
 """
 
-goto = "Перейти в бота"
+goto = "Подключить подписку"
 
 
 mute_add = """

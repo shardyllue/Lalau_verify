@@ -163,7 +163,7 @@ async def scheduler_startup(
         db = async_session()
     )
 
-    schedule.every(10).seconds.do(public_posting)
+    schedule.every(5).days.do(public_posting)
 
     while True:
         await schedule.run_pending()

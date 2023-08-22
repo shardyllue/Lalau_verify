@@ -203,7 +203,7 @@ async def posting_kb(username : str, user_id : int, page = int):
 
 
 video_text = "Видео отправлено ниже"
-video_btn_skip = "Убрать"
+video_btn_skip = "🔙назад"
 
 
 video_kb = InlineKeyboardMarkup().add(

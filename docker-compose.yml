@@ -1,4 +1,4 @@
-version: '2.8'
+version: '3.7'
 
 services:
   postgres:
@@ -7,7 +7,7 @@ services:
       - ./.env
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PASSWORD=hF3EAGv9dCs
     volumes:
       - /home/pgdata:/var/lib/postgresql/data
     restart: on-failure
@@ -16,9 +16,11 @@ services:
     container_name: db
   bot:
     build: .
-    command: sh -c 'alembic revision --autogenerate -m "Tables" && alembic upgrade head && python -m app'
+    command: sh -c 'python -m app'
     env_file:
       - ./.env
+    volumes:
+      - /home/data:/app/data
     restart: always
     depends_on:
       - postgres

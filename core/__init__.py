@@ -7,9 +7,9 @@ from aiogram.contrib.fsm_storage.files import JSONStorage
 from utils.config import TOKEN
 from utils.mute import MuteStorage
 
-storage = JSONStorage(path.join("storage.json"))
+storage = JSONStorage(path.join("data/storage.json"))
 
-mute_storage = MuteStorage(path.join("mute.json"))
+mute_storage = MuteStorage(path.join("data/mute.json"))
 
 bot = Bot(
     token=TOKEN,

@@ -12,8 +12,8 @@ STORAGE_GROUP = int(environ.get("STORAGE_GROUP_ID"))
 PUBLIC_GROUP = int(environ.get("PUBLIC_GROUP_ID"))
 
 
-ALLOW_SYMBOL_RU = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя-_@ "
-ALLOW_SYMBOL_EN = "abcdefghijklmnopqrstuvwxyz-_@ "
+ALLOW_SYMBOL_RU = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя-_@ 1234567890"
+ALLOW_SYMBOL_EN = "abcdefghijklmnopqrstuvwxyz-_@ 1234567890"
 
 
 LINK_CLUB_WOMEN = "https://t.me/+ZebXp367A3VhNzhi"
